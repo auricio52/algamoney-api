@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -23,8 +24,8 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category findById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+    public Optional<Category> findById(Long id) {
+        return categoryRepository.findById(id);
     }
 
 }

@@ -4,15 +4,14 @@ import com.algaworks.algamoneyapi.entities.Category;
 import com.algaworks.algamoneyapi.repositories.dtos.CategoryDto;
 import com.algaworks.algamoneyapi.repositories.mappers.CategoryMapper;
 import com.algaworks.algamoneyapi.services.CategoryService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,6 +30,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) {
         Category category = categoryService.create(CategoryMapper.fromCategoryDto(categoryDto));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(category.getId()).toUri();
@@ -39,7 +39,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> findById(@PathVariable Long id) {
-        Category category = categoryService.findById(id);
-        return ResponseEntity.ok(CategoryMapper.toCategoryDto(category));
+        Optional<Category> optional = categoryService.findById(id);
+        return optional.isPresent() ? ResponseEntity.ok(CategoryMapper.toCategoryDto(optional.get())) : ResponseEntity.notFound().build();
     }
 }
