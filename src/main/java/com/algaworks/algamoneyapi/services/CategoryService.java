@@ -2,7 +2,6 @@ package com.algaworks.algamoneyapi.services;
 
 import com.algaworks.algamoneyapi.entities.Category;
 import com.algaworks.algamoneyapi.repositories.CategoryRepository;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

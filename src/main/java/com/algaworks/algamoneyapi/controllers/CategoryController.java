@@ -5,6 +5,7 @@ import com.algaworks.algamoneyapi.repositories.dtos.CategoryDto;
 import com.algaworks.algamoneyapi.repositories.mappers.CategoryMapper;
 import com.algaworks.algamoneyapi.services.CategoryService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,7 +32,7 @@ public class CategoryController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto categoryDto) {
         Category category = categoryService.create(CategoryMapper.fromCategoryDto(categoryDto));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(category.getId()).toUri();
         return ResponseEntity.created(uri).body(CategoryMapper.toCategoryDto(category));
