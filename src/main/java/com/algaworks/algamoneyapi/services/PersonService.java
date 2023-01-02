@@ -1,6 +1,7 @@
 package com.algaworks.algamoneyapi.services;
 
 import com.algaworks.algamoneyapi.entities.Person;
+import com.algaworks.algamoneyapi.exceptions.ResourceNotFoundException;
 import com.algaworks.algamoneyapi.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,10 @@ public class PersonService {
 
     public Optional<Person> findById(Long id) {
         return personRepository.findById(id);
+    }
+
+    public void deleteById(Long id) {
+        personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found"));
+        personRepository.deleteById(id);
     }
 }

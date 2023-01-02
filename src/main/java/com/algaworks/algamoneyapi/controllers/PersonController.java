@@ -41,4 +41,10 @@ public class PersonController {
         Optional<Person> optional = personService.findById(id);
         return optional.isPresent() ? ResponseEntity.ok(PersonMapper.toPersonDto(optional.get())) : ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        personService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

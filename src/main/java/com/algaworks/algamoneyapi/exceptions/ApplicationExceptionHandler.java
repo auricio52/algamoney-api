@@ -9,8 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -38,6 +41,10 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
         List<StandardErrorDto> errors = createErrorsList(ex.getBindingResult());
         return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
     }
+
+    @ExceptionHandler({ ResourceNotFoundException.class })
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleResourceNotFoundException() { }
 
     private List<StandardErrorDto> createErrorsList(BindingResult bindingResult) {
         List<StandardErrorDto> errors = new ArrayList<>();
