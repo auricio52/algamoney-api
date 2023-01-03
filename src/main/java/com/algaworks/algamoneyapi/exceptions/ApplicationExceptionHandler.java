@@ -1,7 +1,9 @@
 package com.algaworks.algamoneyapi.exceptions;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -45,6 +47,14 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({ ResourceNotFoundException.class })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleResourceNotFoundException() { }
+
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
+        String message = messageSource.getMessage("invalid.operation", null, LocaleContextHolder.getLocale());
+        String developerMessage = ExceptionUtils.getRootCauseMessage(ex);
+        List<StandardErrorDto> errors = Arrays.asList(new StandardErrorDto(message, developerMessage));
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
 
     private List<StandardErrorDto> createErrorsList(BindingResult bindingResult) {
         List<StandardErrorDto> errors = new ArrayList<>();
