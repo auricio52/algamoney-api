@@ -1,11 +1,11 @@
 package com.algaworks.algamoneyapi.services;
 
 import com.algaworks.algamoneyapi.entities.Category;
+import com.algaworks.algamoneyapi.exceptions.ResourceNotFoundException;
 import com.algaworks.algamoneyapi.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -23,8 +23,8 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Optional<Category> findById(Long id) {
-        return categoryRepository.findById(id);
+    public Category findById(Long id) {
+        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found!"));
     }
 
 }

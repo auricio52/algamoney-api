@@ -1,11 +1,11 @@
 package com.algaworks.algamoneyapi.services;
 
 import com.algaworks.algamoneyapi.entities.Launch;
+import com.algaworks.algamoneyapi.exceptions.ResourceNotFoundException;
 import com.algaworks.algamoneyapi.repositories.LaunchRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LaunchService {
@@ -19,7 +19,11 @@ public class LaunchService {
         return launchRepository.findAll();
     }
 
-    public Optional<Launch> findById(Long id) {
-        return launchRepository.findById(id);
+    public Launch create(Launch launch) {
+        return launchRepository.save(launch);
+    }
+
+    public Launch findById(Long id) {
+        return launchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Launch not found!"));
     }
 }

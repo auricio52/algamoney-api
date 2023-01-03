@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -25,18 +24,18 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Optional<Person> findById(Long id) {
-        return personRepository.findById(id);
+    public Person findById(Long id) {
+        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found!"));
     }
 
     public Person update(Long id, Person person) {
-        Person savedPerson = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found"));
+        Person savedPerson = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found!"));
         BeanUtils.copyProperties(person, savedPerson, "id");
         return personRepository.save(savedPerson);
     }
 
     public void deleteById(Long id) {
-        personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found"));
+        personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found!"));
         personRepository.deleteById(id);
     }
 }

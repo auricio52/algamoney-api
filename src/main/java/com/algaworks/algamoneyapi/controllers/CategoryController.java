@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,7 +39,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> findById(@PathVariable Long id) {
-        Optional<Category> optional = categoryService.findById(id);
-        return optional.isPresent() ? ResponseEntity.ok(CategoryMapper.toCategoryDto(optional.get())) : ResponseEntity.notFound().build();
+        Category category = categoryService.findById(id);
+        return ResponseEntity.ok(CategoryMapper.toCategoryDto(category));
     }
 }

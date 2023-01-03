@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,8 +40,8 @@ public class PersonController {
     @GetMapping("/{id}")
     @Transactional
     public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
-        Optional<Person> optional = personService.findById(id);
-        return optional.isPresent() ? ResponseEntity.ok(PersonMapper.toPersonDto(optional.get())) : ResponseEntity.notFound().build();
+        Person person = personService.findById(id);
+        return ResponseEntity.ok(PersonMapper.toPersonDto(person));
     }
 
     @PutMapping("/{id}")
