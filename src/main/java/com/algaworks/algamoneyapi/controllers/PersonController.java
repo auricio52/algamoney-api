@@ -4,6 +4,7 @@ import com.algaworks.algamoneyapi.entities.Person;
 import com.algaworks.algamoneyapi.repositories.dtos.PersonDto;
 import com.algaworks.algamoneyapi.repositories.mappers.PersonMapper;
 import com.algaworks.algamoneyapi.services.PersonService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class PersonController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<PersonDto> create(@Valid @RequestBody PersonDto personDto) {
         Person person = personService.create(PersonMapper.fromPersonDto(personDto));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(person.getId()).toUri();
@@ -37,9 +39,16 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
+    @Transactional
     public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
         Optional<Person> optional = personService.findById(id);
         return optional.isPresent() ? ResponseEntity.ok(PersonMapper.toPersonDto(optional.get())) : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonDto> update(@PathVariable Long id, @Valid @RequestBody PersonDto personDto) {
+        Person person = personService.update(id, PersonMapper.fromPersonDto(personDto));
+        return ResponseEntity.ok(PersonMapper.toPersonDto(person));
     }
 
     @DeleteMapping("/{id}")
