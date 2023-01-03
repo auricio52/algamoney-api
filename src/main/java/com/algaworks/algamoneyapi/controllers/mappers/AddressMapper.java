@@ -1,7 +1,7 @@
-package com.algaworks.algamoneyapi.repositories.mappers;
+package com.algaworks.algamoneyapi.controllers.mappers;
 
 import com.algaworks.algamoneyapi.entities.Address;
-import com.algaworks.algamoneyapi.repositories.dtos.AddressDto;
+import com.algaworks.algamoneyapi.controllers.dtos.AddressDto;
 
 public class AddressMapper {
     public static AddressDto toAddressDto(Address address) {

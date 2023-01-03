@@ -1,8 +1,8 @@
 package com.algaworks.algamoneyapi.controllers;
 
 import com.algaworks.algamoneyapi.entities.Person;
-import com.algaworks.algamoneyapi.repositories.dtos.PersonDto;
-import com.algaworks.algamoneyapi.repositories.mappers.PersonMapper;
+import com.algaworks.algamoneyapi.controllers.dtos.PersonDto;
+import com.algaworks.algamoneyapi.controllers.mappers.PersonMapper;
 import com.algaworks.algamoneyapi.services.PersonService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

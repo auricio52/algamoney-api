@@ -1,9 +1,9 @@
-package com.algaworks.algamoneyapi.repositories.mappers;
+package com.algaworks.algamoneyapi.controllers.mappers;
 
 import com.algaworks.algamoneyapi.entities.Address;
 import com.algaworks.algamoneyapi.entities.Person;
-import com.algaworks.algamoneyapi.repositories.dtos.AddressDto;
-import com.algaworks.algamoneyapi.repositories.dtos.PersonDto;
+import com.algaworks.algamoneyapi.controllers.dtos.AddressDto;
+import com.algaworks.algamoneyapi.controllers.dtos.PersonDto;
 
 public class PersonMapper {
     public static PersonDto toPersonDto(Person person) {

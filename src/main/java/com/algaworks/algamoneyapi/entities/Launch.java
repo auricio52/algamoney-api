@@ -21,6 +21,7 @@ public class Launch {
     private BigDecimal value;
     private String note;
     @Enumerated(EnumType.STRING)
+    @Column(name = "release_type")
     private LaunchType type;
     @ManyToOne
     @JoinColumn(name = "category_id")

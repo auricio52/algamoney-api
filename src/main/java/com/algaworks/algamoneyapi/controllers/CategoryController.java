@@ -1,8 +1,8 @@
 package com.algaworks.algamoneyapi.controllers;
 
 import com.algaworks.algamoneyapi.entities.Category;
-import com.algaworks.algamoneyapi.repositories.dtos.CategoryDto;
-import com.algaworks.algamoneyapi.repositories.mappers.CategoryMapper;
+import com.algaworks.algamoneyapi.controllers.dtos.CategoryDto;
+import com.algaworks.algamoneyapi.controllers.mappers.CategoryMapper;
 import com.algaworks.algamoneyapi.services.CategoryService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

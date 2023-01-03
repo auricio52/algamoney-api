@@ -1,4 +1,4 @@
-package com.algaworks.algamoneyapi.repositories.dtos;
+package com.algaworks.algamoneyapi.controllers.dtos;
 
 public record AddressDto (
      String publicPlace,

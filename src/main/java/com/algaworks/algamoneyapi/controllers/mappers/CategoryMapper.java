@@ -1,7 +1,7 @@
-package com.algaworks.algamoneyapi.repositories.mappers;
+package com.algaworks.algamoneyapi.controllers.mappers;
 
 import com.algaworks.algamoneyapi.entities.Category;
-import com.algaworks.algamoneyapi.repositories.dtos.CategoryDto;
+import com.algaworks.algamoneyapi.controllers.dtos.CategoryDto;
 
 public class CategoryMapper {
     public static CategoryDto toCategoryDto(Category category) {

@@ -1,4 +1,4 @@
-package com.algaworks.algamoneyapi.repositories.dtos;
+package com.algaworks.algamoneyapi.controllers.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
