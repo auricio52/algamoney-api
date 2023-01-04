@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,6 +51,14 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         String message = messageSource.getMessage("invalid.operation", null, LocaleContextHolder.getLocale());
         String developerMessage = ExceptionUtils.getRootCauseMessage(ex);
+        List<StandardErrorDto> errors = Arrays.asList(new StandardErrorDto(message, developerMessage));
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({InactivePersonException.class})
+    public ResponseEntity<Object> handleInactivePersonException(InactivePersonException ex, WebRequest request) {
+        String message = messageSource.getMessage("inactive.person", null, LocaleContextHolder.getLocale());
+        String developerMessage = ex.toString();
         List<StandardErrorDto> errors = Arrays.asList(new StandardErrorDto(message, developerMessage));
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
