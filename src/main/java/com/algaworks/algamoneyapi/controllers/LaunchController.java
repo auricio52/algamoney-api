@@ -3,6 +3,7 @@ package com.algaworks.algamoneyapi.controllers;
 import com.algaworks.algamoneyapi.controllers.dtos.LaunchDto;
 import com.algaworks.algamoneyapi.controllers.mappers.LaunchMapper;
 import com.algaworks.algamoneyapi.entities.Launch;
+import com.algaworks.algamoneyapi.repositories.launch.LaunchFilter;
 import com.algaworks.algamoneyapi.services.LaunchService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class LaunchController {
     }
 
     @GetMapping
-    public List<LaunchDto> list() {
-        List<Launch> launches = launchService.list();
+    public List<LaunchDto> list(LaunchFilter filter) {
+        List<Launch> launches = launchService.filter(filter);
         return launches.stream().map(LaunchMapper::toLaunchDto).collect(Collectors.toList());
     }
 

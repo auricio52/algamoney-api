@@ -5,6 +5,7 @@ import com.algaworks.algamoneyapi.entities.Person;
 import com.algaworks.algamoneyapi.exceptions.InactivePersonException;
 import com.algaworks.algamoneyapi.exceptions.ResourceNotFoundException;
 import com.algaworks.algamoneyapi.repositories.LaunchRepository;
+import com.algaworks.algamoneyapi.repositories.launch.LaunchFilter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class LaunchService {
 
     public List<Launch> list() {
         return launchRepository.findAll();
+    }
+
+    public List<Launch> filter(LaunchFilter filter) {
+        return launchRepository.filter(filter);
     }
 
     public Launch create(Launch launch) {
