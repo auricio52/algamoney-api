@@ -41,4 +41,10 @@ public class LaunchController {
         Launch launch = launchService.findById(id);
         return ResponseEntity.ok(LaunchMapper.toLaunchDto(launch));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        launchService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

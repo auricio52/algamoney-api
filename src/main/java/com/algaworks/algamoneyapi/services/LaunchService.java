@@ -39,4 +39,9 @@ public class LaunchService {
     public Launch findById(Long id) {
         return launchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Launch not found!"));
     }
+
+    public void deleteById(Long id) {
+        launchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Launch not found!"));
+        launchRepository.deleteById(id);
+    }
 }
