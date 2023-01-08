@@ -8,6 +8,9 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +21,23 @@ public class LaunchRepositoryQueryImpl implements LaunchRepositoryQuery {
     private EntityManager entityManager;
 
     @Override
-    public List<Launch> filter(LaunchFilter filter) {
+    public Page<Launch> filter(LaunchFilter filter, Pageable pageable) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Launch> criteriaQuery = builder.createQuery(Launch.class);
-        Root<Launch> root = criteriaQuery.from(Launch.class);
+        CriteriaQuery<Launch> criteria = builder.createQuery(Launch.class);
+        Root<Launch> root = criteria.from(Launch.class);
 
         Predicate[] predicates = createPredicates(filter, builder, root);
-        criteriaQuery.where(predicates);
+        criteria.where(predicates);
 
-        TypedQuery<Launch> query = entityManager.createQuery(criteriaQuery);
-        return query.getResultList();
+        TypedQuery<Launch> query = entityManager.createQuery(criteria);
+
+        int currentPage = pageable.getPageNumber();
+        int totalRowsPerPage = pageable.getPageSize();
+        int firstRowOfPage = currentPage * totalRowsPerPage;
+        query.setFirstResult(firstRowOfPage);
+        query.setMaxResults(totalRowsPerPage);
+
+        return new PageImpl<>(query.getResultList(), pageable, totalRows(filter));
     }
 
     private Predicate[] createPredicates(LaunchFilter launchFilter, CriteriaBuilder builder, Root<Launch> root) {
@@ -46,5 +56,16 @@ public class LaunchRepositoryQueryImpl implements LaunchRepositoryQuery {
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
+    }
+
+    private Long totalRows(LaunchFilter launchFilter) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Launch> root = criteria.from(Launch.class);
+
+        Predicate[] predicates = createPredicates(launchFilter, builder, root);
+        criteria.where(predicates);
+        criteria.select(builder.count(root));
+        return entityManager.createQuery(criteria).getSingleResult();
     }
 }

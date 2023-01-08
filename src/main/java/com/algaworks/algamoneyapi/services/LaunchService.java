@@ -6,6 +6,8 @@ import com.algaworks.algamoneyapi.exceptions.InactivePersonException;
 import com.algaworks.algamoneyapi.exceptions.ResourceNotFoundException;
 import com.algaworks.algamoneyapi.repositories.LaunchRepository;
 import com.algaworks.algamoneyapi.repositories.launch.LaunchFilter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +26,8 @@ public class LaunchService {
         return launchRepository.findAll();
     }
 
-    public List<Launch> filter(LaunchFilter filter) {
-        return launchRepository.filter(filter);
+    public Page<Launch> filter(LaunchFilter filter, Pageable pageable) {
+        return launchRepository.filter(filter, pageable);
     }
 
     public Launch create(Launch launch) {

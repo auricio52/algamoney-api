@@ -6,14 +6,13 @@ import com.algaworks.algamoneyapi.entities.Launch;
 import com.algaworks.algamoneyapi.repositories.launch.LaunchFilter;
 import com.algaworks.algamoneyapi.services.LaunchService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/launches")
 public class LaunchController {
@@ -24,9 +23,9 @@ public class LaunchController {
     }
 
     @GetMapping
-    public List<LaunchDto> list(LaunchFilter filter) {
-        List<Launch> launches = launchService.filter(filter);
-        return launches.stream().map(LaunchMapper::toLaunchDto).collect(Collectors.toList());
+    public Page<LaunchDto> list(LaunchFilter filter, Pageable pageable) {
+        Page<Launch> launches = launchService.filter(filter, pageable);
+        return launches.map(LaunchMapper::toLaunchDto);
     }
 
     @PostMapping
